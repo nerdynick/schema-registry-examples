@@ -9,8 +9,10 @@ In this example we will show how to:
 3. Package & distribute a Jar dependency containing POJO builds of your schemas.  
 
 This examples makes use of 2 Maven Plugins:
-1. avro-maven-plugin - Apache Avro Maven Plugin to compile Avro (.avsc) files into POJOs. For use within your codebase.
-2. kafka-schema-registry-maven-plugin - Confluent Schema Registry Plugin used to register and update your schema definitions against a Schema Registry instance. 
+1. [avro-maven-plugin](https://avro.apache.org/docs/current/gettingstartedjava.html) - 
+    Apache Avro Maven Plugin to compile Avro (.avsc) files into POJOs. For use within your codebase.
+2. [kafka-schema-registry-maven-plugin](https://docs.confluent.io/current/schema-registry/develop/maven-plugin.html#sr-maven-plugin) - 
+    Confluent Schema Registry Plugin used to [register](https://docs.confluent.io/current/schema-registry/develop/maven-plugin.html#schema-registry-register) and update your schema definitions against a Schema Registry instance. 
 
 ## schema-registry-examples-download
 
@@ -19,5 +21,7 @@ In this example we will show how to:
 2. Compile those schema definitions into POJOs for use within our codebase.
 
 This examples makes use of 2 Maven Plugins:
-1. avro-maven-plugin - Apache Avro Maven Plugin to compile Avro (.avsc) files into POJOs. For use within your codebase.
-2. kafka-schema-registry-maven-plugin - Confluent Schema Registry Plugin used to download your schema definitions from a Schema Registry instance.  
+1. avro-maven-plugin - 
+    Apache Avro Maven Plugin to compile Avro (.avsc) files into POJOs. For use within your codebase.
+2. kafka-schema-registry-maven-plugin - 
+    Confluent Schema Registry Plugin used to [download](https://docs.confluent.io/current/schema-registry/develop/maven-plugin.html#schema-registry-download) your schema definitions from a Schema Registry instance.  
