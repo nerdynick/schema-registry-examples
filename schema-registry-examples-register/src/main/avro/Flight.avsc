@@ -1,0 +1,19 @@
+{
+    "type": "record",
+    "name": "Flight",
+    "namespace": "io.confluent.data.models",
+    "fields": [
+    {
+        "name": "datetime",
+        "type": {
+            "type": "long",
+            "logicalType" : "timestamp-millis"
+        },
+        "doc": "Date of Flight"
+    },
+    {
+        "name": "number",
+        "type": "string",
+        "doc": "Flight Number"
+    }]
+}

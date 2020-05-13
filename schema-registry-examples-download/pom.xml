@@ -1,0 +1,185 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>io.confluent</groupId>
+		<artifactId>schema-registry-examples</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>schema-registry-examples-download</artifactId>
+
+
+	<pluginRepositories>
+		<!-- Confluent Maven Plugin Repo. Required to use the Confluent Schema 
+			Registry Maven Plugin -->
+		<pluginRepository>
+			<id>confluent</id>
+			<url>https://packages.confluent.io/maven/</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<properties>
+		<avro.version>1.9.2</avro.version>
+		<confluent.version>5.5.0</confluent.version>
+	</properties>
+
+	<dependencies>
+		<!-- Avro Package -->
+		<dependency>
+			<groupId>org.apache.avro</groupId>
+			<artifactId>avro</artifactId>
+			<version>${avro.version}</version>
+		</dependency>
+	</dependencies>
+
+
+	<build>
+		<plugins>
+			<!-- Maven Plugin to support extra source directories over the standard 
+				set -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<!-- Set our generated-source dir, that the avro plugin will kick 
+									files out to as a source. This allows better linking with Eclipse and other 
+									IDEs for finding the Class reference(s). As well as enabled Maven to clean 
+									up the generated sources better. -->
+								<source>target/generated-sources/avro</source>
+								<!-- <source>target/generated-sources/protobuf</source> <source>target/generated-sources/jsonschema</source> -->
+
+								<!-- Add our Avro,Protobuf,JsonSchema source folders as a source 
+									to easy of access within IDEs -->
+								<source>target/downloaded-sources/avro</source>
+								<!-- <source>target/downloaded-sources/protobuf</source> <source>target/downloaded-sources/jsonschema</source> -->
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- Maven Plugin to interact with the Confluent Schema Registry -->
+			<!-- Read more about this plugin here: https://docs.confluent.io/current/schema-registry/develop/maven-plugin.html -->
+			<plugin>
+				<groupId>io.confluent</groupId>
+				<artifactId>kafka-schema-registry-maven-plugin</artifactId>
+				<version>${confluent.version}</version>
+				<configuration>
+					<schemaRegistryUrls>
+						<param>http://sr1.nikoleta.aws.ps.confluent.io:8081</param>
+					</schemaRegistryUrls>
+					<!-- <userInfoConfig>USERNAME:PASSWORD</userInfoConfig> -->
+					
+                    <prettyPrintSchemas>true</prettyPrintSchemas>
+					<outputDirectory>target/downloaded-sources/avro/</outputDirectory>
+					<subjectPatterns>
+						<param>.*</param>
+					</subjectPatterns>
+
+				</configuration>
+				<executions>
+					<execution>
+						<id>download</id>
+						<phase>initialize</phase>
+						<goals>
+							<!-- Goal to verify any schema changes will be compatibility with 
+								previous versions -->
+							<goal>download</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- Maven Plugin to compile AVSC (Avro) schema files into Java Classes 
+				(Pojos) -->
+			<plugin>
+				<groupId>org.apache.avro</groupId>
+				<artifactId>avro-maven-plugin</artifactId>
+				<version>${avro.version}</version>
+				<configuration>
+					<stringType>String</stringType>
+				</configuration>
+				<executions>
+					<execution>
+						<id>schemas</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>schema</goal>
+						</goals>
+						<configuration>
+							<sourceDirectory>${project.basedir}/target/downloaded-sources/avro</sourceDirectory>
+							<outputDirectory>${project.basedir}/target/generated-sources/avro</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!-- Plugin to reduce Eclipse and other IDE errors with "interesting" 
+					maven phases/lifecycles. This plugin's configuration is used to store Eclipse 
+					m2e settings only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.apache.avro
+										</groupId>
+										<artifactId>
+											avro-maven-plugin
+										</artifactId>
+										<versionRange>
+											[1.8.1,)
+										</versionRange>
+										<goals>
+											<goal>schema</goal>
+											<goal>idl-protocol</goal>
+											<goal>protocol</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute>
+											<runOnIncremental>true</runOnIncremental>
+										</execute>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>io.confluent</groupId>
+										<artifactId>
+											kafka-schema-registry-maven-plugin
+										</artifactId>
+										<versionRange>
+											[5.5.0,)
+										</versionRange>
+										<goals>
+											<goal>download</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute>
+											<runOnIncremental>true</runOnIncremental>
+										</execute>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>
