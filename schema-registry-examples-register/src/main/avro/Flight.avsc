@@ -15,5 +15,15 @@
         "name": "number",
         "type": "string",
         "doc": "Flight Number"
+    },
+    {
+        "name": "cost",
+        "type": {
+            "type": "bytes",
+            "logicalType" : "decimal",
+            "precision": 2,
+            "scale": 2
+        },
+        "doc": "Flight Cost"
     }]
 }
