@@ -41,5 +41,11 @@
 	<properties>
 		<maven.compoler.target>1.8</maven.compoler.target>
 		<maven.compoler.source>1.8</maven.compoler.source>
+
+		<schemareg.host>http://sr.nikoleta.ps.confluent.io</schemareg.host>
+
+		<avro.version>1.11.0</avro.version>
+		<confluent.version>7.1.0</confluent.version>
+		<proto.version>0.6.1</proto.version>
 	</properties>
 </project>

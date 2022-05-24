@@ -1,0 +1,8 @@
+syntax = "proto3";
+package io.confluent.data.models;
+
+message Person {
+  string name = 1;
+  int32 id = 2;
+  optional string email = 3;
+}

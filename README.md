@@ -14,6 +14,14 @@ This examples makes use of 2 Maven Plugins:
 2. [kafka-schema-registry-maven-plugin](https://docs.confluent.io/current/schema-registry/develop/maven-plugin.html#sr-maven-plugin) - 
     Confluent Schema Registry Plugin used to [register](https://docs.confluent.io/current/schema-registry/develop/maven-plugin.html#schema-registry-register) and update your schema definitions against a Schema Registry instance. 
 
+### How To
+
+**Register Schemas Without Doing a Full Deploy**
+```
+$> cd schema-registry-examples-register
+$> mvn io.confluent:kafka-schema-registry-maven-plugin:register
+```
+
 ## schema-registry-examples-download
 
 In this example we will show how to:

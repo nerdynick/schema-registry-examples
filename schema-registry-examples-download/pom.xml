@@ -20,8 +20,6 @@
 	</pluginRepositories>
 
 	<properties>
-		<avro.version>1.9.2</avro.version>
-		<confluent.version>5.5.0</confluent.version>
 	</properties>
 
 	<dependencies>
@@ -74,7 +72,7 @@
 				<version>${confluent.version}</version>
 				<configuration>
 					<schemaRegistryUrls>
-						<param>http://sr1.nikoleta.aws.ps.confluent.io:8081</param>
+						<param>${schemareg.host}</param>
 					</schemaRegistryUrls>
 					<!-- <userInfoConfig>USERNAME:PASSWORD</userInfoConfig> -->
 					
