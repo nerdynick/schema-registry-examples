@@ -1,0 +1,13 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package io.confluent.data.models;
+
+message SearchResponse {
+    repeated Result result = 1;
+}
+
+message Result {
+    string url = 1;
+    optional string title = 2;
+    repeated string snippets = 3;
+}

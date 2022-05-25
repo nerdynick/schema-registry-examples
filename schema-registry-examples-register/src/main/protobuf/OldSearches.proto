@@ -1,0 +1,13 @@
+syntax = "proto2";
+option java_multiple_files = true;
+package io.confluent.data.models;
+
+message OldSearchResponse {
+    repeated OldResult result = 1;
+}
+
+message OldResult {
+    required string url = 1;
+    optional string title = 2;
+    repeated string snippets = 3;
+}

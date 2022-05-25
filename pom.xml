@@ -38,6 +38,7 @@
 		<module>schema-registry-examples-register</module>
 		<module>schema-registry-examples-download</module>
 	</modules>
+
 	<properties>
 		<maven.compoler.target>1.8</maven.compoler.target>
 		<maven.compoler.source>1.8</maven.compoler.source>
@@ -46,6 +47,6 @@
 
 		<avro.version>1.11.0</avro.version>
 		<confluent.version>7.1.0</confluent.version>
-		<proto.version>0.6.1</proto.version>
+		<proto.version>3.20.1</proto.version>
 	</properties>
 </project>

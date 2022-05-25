@@ -9,13 +9,17 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>schema-registry-examples-register</artifactId>
-
+	
 	<pluginRepositories>
-		<!-- Confluent Maven Plugin Repo. Required to use the Confluent Schema 
-			Registry Maven Plugin -->
+		<!-- Confluent Maven Plugin Repo. Required to use the Confluent Schema Registry Maven Plugin -->
 		<pluginRepository>
 			<id>confluent</id>
 			<url>https://packages.confluent.io/maven/</url>
+		</pluginRepository>
+		<pluginRepository>
+			<id>confluent-artifactory-internal</id>
+			<name>Confluent Collection Repository</name>
+			<url>http://nexus.nerdynick.net/repository/confluent/</url>
 		</pluginRepository>
 	</pluginRepositories>
 
@@ -31,17 +35,28 @@
 			<artifactId>avro</artifactId>
 			<version>${avro.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.google.protobuf</groupId>
+			<artifactId>protobuf-java</artifactId>
+			<version>${proto.version}</version>
+		</dependency>
 	</dependencies>
 
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.0</version>
+			</plugin>
 			<!-- Maven Plugin to support extra source directories over the standard 
 				set -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>3.0.0</version>
+				<version>3.3.0</version>
 				<executions>
 					<execution>
 						<phase>generate-sources</phase>
@@ -126,14 +141,20 @@
 
 					<!-- Associate Schema Registry Subjects to Avro Schemas -->
 					<subjects>
-						<flights-value>src/main/avro/Flight.avsc</flights-value>
-						<people-value>src/main/protobuf/Person.proto</people-value>
-						<old-people-value>src/main/protobuf/OldPerson.proto</old-people-value>
+						<avro-flights-value>src/main/avro/Flight.avsc</avro-flights-value>
+						<proto-people-value>src/main/protobuf/Person.proto</proto-people-value>
+						<proto-old-people-value>src/main/protobuf/OldPerson.proto</proto-old-people-value>
+						<proto-old-search-value>src/main/protobuf/OldSearches.proto</proto-old-search-value>
+						<proto-search-value>src/main/protobuf/Searches.proto</proto-search-value>
+						<!-- <proto-personsearch-value>src/main/protobuf/PersonSearch.proto</proto-personsearch-value> -->
 					</subjects>
 					<schemaTypes>
-					   <flights-value>AVRO</flights-value> <!-- If not defined AVRO is the default -->
-					   <people-value>PROTOBUF</people-value>
-					   <old-people-value>PROTOBUF</old-people-value>
+					   <avro-flights-value>AVRO</avro-flights-value> <!-- If not defined AVRO is the default -->
+					   <proto-people-value>PROTOBUF</proto-people-value>
+					   <proto-old-people-value>PROTOBUF</proto-old-people-value>
+					   <proto-old-search-value>PROTOBUF</proto-old-search-value>
+					   <proto-search-value>PROTOBUF</proto-search-value>
+					   <!-- <proto-personsearch-value>PROTOBUF</proto-personsearch-value> -->
 					</schemaTypes>
 				</configuration>
 				<executions>
@@ -157,46 +178,5 @@
 				</executions>
 			</plugin>
 		</plugins>
-		<pluginManagement>
-			<plugins>
-				<!-- Plugin to reduce Eclipse and other IDE errors with "interesting" 
-					maven phases/lifecycles. This plugin's configuration is used to store Eclipse 
-					m2e settings only. It has no influence on the Maven build itself. -->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>
-											org.apache.avro
-										</groupId>
-										<artifactId>
-											avro-maven-plugin
-										</artifactId>
-										<versionRange>
-											[1.8.1,)
-										</versionRange>
-										<goals>
-											<goal>schema</goal>
-											<goal>idl-protocol</goal>
-											<goal>protocol</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<execute>
-											<runOnIncremental>true</runOnIncremental>
-										</execute>
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 	</build>
 </project>

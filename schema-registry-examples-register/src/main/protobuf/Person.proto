@@ -1,4 +1,5 @@
 syntax = "proto3";
+option java_multiple_files = true;
 package io.confluent.data.models;
 
 message Person {

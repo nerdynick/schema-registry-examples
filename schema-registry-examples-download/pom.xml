@@ -20,6 +20,8 @@
 	</pluginRepositories>
 
 	<properties>
+		<maven.compoler.target>1.8</maven.compoler.target>
+		<maven.compoler.source>1.8</maven.compoler.source>
 	</properties>
 
 	<dependencies>
@@ -75,23 +77,22 @@
 						<param>${schemareg.host}</param>
 					</schemaRegistryUrls>
 					<!-- <userInfoConfig>USERNAME:PASSWORD</userInfoConfig> -->
-					
-                    <prettyPrintSchemas>true</prettyPrintSchemas>
-					<outputDirectory>target/downloaded-sources/avro/</outputDirectory>
-					<subjectPatterns>
-						<param>.*</param>
-					</subjectPatterns>
-
 				</configuration>
 				<executions>
 					<execution>
-						<id>download</id>
+						<id>download-avro</id>
 						<phase>initialize</phase>
 						<goals>
-							<!-- Goal to verify any schema changes will be compatibility with 
-								previous versions -->
+							<!-- Goal to verify any schema changes will be compatibility with previous versions -->
 							<goal>download</goal>
 						</goals>
+						<configuration>
+							<prettyPrintSchemas>true</prettyPrintSchemas>
+							<outputDirectory>target/downloaded-sources/avro/</outputDirectory>
+							<subjectPatterns>
+								<param>avro-*</param>
+							</subjectPatterns>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -119,65 +120,5 @@
 				</executions>
 			</plugin>
 		</plugins>
-		<pluginManagement>
-			<plugins>
-				<!-- Plugin to reduce Eclipse and other IDE errors with "interesting" 
-					maven phases/lifecycles. This plugin's configuration is used to store Eclipse 
-					m2e settings only. It has no influence on the Maven build itself. -->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>
-											org.apache.avro
-										</groupId>
-										<artifactId>
-											avro-maven-plugin
-										</artifactId>
-										<versionRange>
-											[1.8.1,)
-										</versionRange>
-										<goals>
-											<goal>schema</goal>
-											<goal>idl-protocol</goal>
-											<goal>protocol</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<execute>
-											<runOnIncremental>true</runOnIncremental>
-										</execute>
-									</action>
-								</pluginExecution>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>io.confluent</groupId>
-										<artifactId>
-											kafka-schema-registry-maven-plugin
-										</artifactId>
-										<versionRange>
-											[5.5.0,)
-										</versionRange>
-										<goals>
-											<goal>download</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<execute>
-											<runOnIncremental>true</runOnIncremental>
-										</execute>
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 	</build>
 </project>
