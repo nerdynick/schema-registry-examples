@@ -142,20 +142,37 @@
 					<!-- Associate Schema Registry Subjects to Avro Schemas -->
 					<subjects>
 						<avro-flights-value>src/main/avro/Flight.avsc</avro-flights-value>
+
 						<proto-people-value>src/main/protobuf/Person.proto</proto-people-value>
 						<proto-old-people-value>src/main/protobuf/OldPerson.proto</proto-old-people-value>
 						<proto-old-search-value>src/main/protobuf/OldSearches.proto</proto-old-search-value>
 						<proto-search-value>src/main/protobuf/Searches.proto</proto-search-value>
 						<!-- <proto-personsearch-value>src/main/protobuf/PersonSearch.proto</proto-personsearch-value> -->
+
+						<!-- For Protobuf with Imports we need to register each of the imports as a separate subject in the Schema Registry -->
+						<proto-import-payment>src/main/protobuf/complex/Payment.proto</proto-import-payment> <!-- This is the Primary Schema that is using Imports -->
+						<proto-import-person>src/main/protobuf/complex/Person.proto</proto-import-person> <!-- This is the Schema that is being imported -->
 					</subjects>
 					<schemaTypes>
 					   <avro-flights-value>AVRO</avro-flights-value> <!-- If not defined AVRO is the default -->
+
 					   <proto-people-value>PROTOBUF</proto-people-value>
 					   <proto-old-people-value>PROTOBUF</proto-old-people-value>
 					   <proto-old-search-value>PROTOBUF</proto-old-search-value>
 					   <proto-search-value>PROTOBUF</proto-search-value>
 					   <!-- <proto-personsearch-value>PROTOBUF</proto-personsearch-value> -->
+
+					   <proto-import-payment>PROTOBUF</proto-import-payment>
+						<proto-import-person>PROTOBUF</proto-import-person>
 					</schemaTypes>
+					<references>
+						<proto-import-payment> <!-- This is the Subject that requires References-->
+							<reference>
+								<name>complex/Person.proto</name> <!-- This is the import path used in the respective Schema -->
+								<subject>proto-import-person</subject> <!-- This is the subject that the imported schema is stored in -->
+							</reference>
+						</proto-import-payment>
+					</references>
 				</configuration>
 				<executions>
 					<!-- <execution>

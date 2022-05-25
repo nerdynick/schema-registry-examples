@@ -1,0 +1,9 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package io.confluent.data.models.complex;
+
+message Person {
+    string firstName = 1;
+    string lastName = 2;
+    optional string middleName = 3;
+}

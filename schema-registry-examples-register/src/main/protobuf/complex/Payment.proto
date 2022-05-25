@@ -1,0 +1,19 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package io.confluent.data.models.complex;
+
+import "complex/Person.proto";
+
+enum PaymentMethod {
+  CREDIT_CARD = 0;
+  CASH = 1;
+  CHECK = 2;
+  CASH_APP = 3;
+}
+
+message Payment {
+  PaymentMethod method = 1;
+  optional int64 paymentAmount = 2;
+  Person from = 3;
+  Person to = 4;
+}
